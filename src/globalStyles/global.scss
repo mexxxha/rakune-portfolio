@@ -1,0 +1,7 @@
+@use 'variables' as *;
+
+body {
+  height: 100dvh;
+  padding: 1% 1% 20px;
+  background-color: $c-background-base;
+}
