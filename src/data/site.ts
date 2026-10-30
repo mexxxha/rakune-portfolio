@@ -15,8 +15,10 @@ export const site = {
   description: "らくねのポートフォリオサイト",
   profile: {
     name: "らくね",
-    birthDay: "02-26",
-    profileImage: Profile
+    job: "illustrator",
+    bio: "フリーランスでイラストレーターやってます。",
+    profileImage: Profile,
+    profileImageAlt: "",
   },
   illustration: [
     { id: 1,  title: "イラスト１", image: illust01,  alt: "" },

@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import { site } from '../data/site';
 import '../globalStyles/reset.css';
 import '../globalStyles/global.scss';
@@ -7,11 +8,13 @@ import '../globalStyles/global.scss';
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>{site.title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet" />
   </head>
   <body>
     <div class="container">
@@ -23,11 +26,9 @@ import '../globalStyles/global.scss';
         </div>
       </header>
       <main class="main">
-        <aside>
-					<a href="/">
-						<h1>らくね</h1>
-					</a>
-				</aside>
+        <aside class="main__sidebar">
+          <Image class="main__icon" src={site.profile.profileImage} alt={site.profile.profileImageAlt} />
+        </aside>
       </main>
     </div>
   </body>
@@ -79,5 +80,14 @@ import '../globalStyles/global.scss';
 
   .main {
     padding: 10px 15px;
+
+    &__sidebar {
+      
+    }
+
+    &__icon {
+      width: 100px;
+      height: 100px;
+    }
   }
 </style>
