@@ -1,0 +1,70 @@
+---
+import { Image } from 'astro:assets';
+import { site } from '../data/site';
+---
+
+<nav class="dock" aria-label="ドック">
+  <ul class="dock__list">
+    <li class="dock__item">
+      <a class="dock__icon" href="#profile" aria-label="プロフィール">
+        <Image src={site.profile.profileImg} alt="" />
+      </a>
+    </li>
+    <li class="dock__item">
+      <a class="dock__icon" href="#works" aria-label="イラスト">
+        <Image src={site.illustration[0].image} alt="" />
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<style lang="scss">
+  .dock {
+    position: absolute;
+    bottom: 14px;
+    left: 50%;
+    translate: -50% 0;
+    height: 72px;
+    padding: 0 8px 8px;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.28);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.65),
+      0 10px 24px rgba(58, 51, 53, 0.18);
+    backdrop-filter: blur(16px) saturate(1.4);
+  }
+
+  .dock__list {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    height: 100%;
+  }
+
+  .dock__item {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .dock__icon {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    overflow: hidden;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.55);
+    transition:
+      width 150ms ease-out,
+      height 150ms ease-out;
+  }
+
+  .dock__icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+</style>
+
+<script src="../scripts/dock.ts"></script>

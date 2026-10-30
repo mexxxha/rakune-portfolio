@@ -1,3 +1,4 @@
+import Logo from '../assets/logo.png';
 import Profile from '../assets/images/profile.jpg';
 import illust01 from '../assets/images/illustration/item01.jpg';
 import illust02 from '../assets/images/illustration/item02.jpg';
@@ -13,12 +14,16 @@ import illust010 from '../assets/images/illustration/item010.jpg';
 export const site = {
   title: "らくね",
   description: "らくねのポートフォリオサイト",
+  logo: {
+    logoImg: Logo,
+    logoAlt: "",
+  },
   profile: {
     name: "らくね",
     job: "illustrator",
     bio: "フリーランスでイラストレーターやってます。",
-    profileImage: Profile,
-    profileImageAlt: "",
+    profileImg: Profile,
+    profileImgAlt: "",
   },
   illustration: [
     { id: 1,  title: "イラスト１", image: illust01,  alt: "" },
