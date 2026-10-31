@@ -18,10 +18,53 @@ import { site } from '../data/site';
       </li>
     </ul>
   </nav>
-  <button class="dock__menu" type="button" aria-expanded="false" aria-label="メニュー">
-    <span class="dock__menu_icon" aria-hidden="true"></span>
-    <span class="dock__menu_icon" aria-hidden="true"></span>
-  </button>
+  <div class="dock__start">
+    <nav class="dock__popup" id="dock-popup" aria-label="メニュー">
+      <p class="dock__popup_brand">らくね</p>
+      <ul class="dock__popup_list">
+        <li>
+          <a class="dock__popup_link" href="#profile">
+            <Image class="dock__popup_thumb" src={site.profile.profileImg} alt="" />
+            プロフィール
+          </a>
+        </li>
+        <li>
+          <a class="dock__popup_link" href="#works">
+            <Image class="dock__popup_thumb" src={site.illustration[0].image} alt="" />
+            イラスト
+          </a>
+        </li>
+        <li>
+          <a class="dock__popup_link" href="#contact">
+            <span class="dock__popup_thumb" aria-hidden="true"></span>
+            お問い合わせ
+          </a>
+        </li>
+        <li>
+          <a class="dock__popup_link" href="#">
+            <span class="dock__popup_thumb" aria-hidden="true"></span>
+            インスタグラム
+          </a>
+        </li>
+        <li>
+          <a class="dock__popup_link" href="#">
+            <span class="dock__popup_thumb" aria-hidden="true"></span>
+            ツイッター
+          </a>
+        </li>
+        <li>
+          <a class="dock__popup_link" href="#">
+            <span class="dock__popup_thumb" aria-hidden="true"></span>
+            ユーチューブ
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <button class="dock__menu" type="button" aria-expanded="false" aria-controls="dock-popup" aria-label="メニュー">
+      <span class="dock__menu_icon" aria-hidden="true"></span>
+      <span class="dock__menu_icon" aria-hidden="true"></span>
+    </button>
+  </div>
 </div>
 
 <style lang="scss">
@@ -34,14 +77,81 @@ import { site } from '../data/site';
     translate: -50% 0;
   }
 
-  .dock__menu {
+  .dock__start {
     display: none;
     position: absolute;
     top: 0;
     left: calc(100% + 12px);
-    width: auto;
     height: 100%;
     aspect-ratio: 1;
+    @include tablet {
+      display: block;
+    }
+  }
+
+  .dock__popup {
+    display: none;
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 6px);
+    min-width: 280px;
+    padding: 2px;
+    border-radius: 8px;
+    background: #c0c0c0;
+    box-shadow:
+      inset -1px -1px #0a0a0a,
+      inset 1px 1px #fff,
+      inset -2px -2px #808080,
+      inset 2px 2px #dfdfdf;
+  }
+
+  .dock__start:has(.dock__menu[aria-expanded='true']) .dock__popup {
+    display: flex;
+  }
+
+  .dock__popup_brand {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    margin: 0;
+    background: #3a3335;
+    color: #fff;
+    writing-mode: vertical-rl;
+    letter-spacing: 0.15em;
+  }
+
+  .dock__popup_list {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 2px;
+  }
+
+  .dock__popup_link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 48px;
+    padding: 8px 16px 8px 10px;
+    color: #000;
+    &:hover,
+    &:focus-visible {
+      background: #000080;
+      color: #fff;
+      outline: none;
+    }
+  }
+
+  .dock__popup_thumb {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    object-fit: cover;
+  }
+
+  .dock__menu {
+    width: 100%;
+    height: 100%;
     padding: 0 14px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.08);
@@ -66,10 +176,6 @@ import { site } from '../data/site';
       box-shadow:
         inset 0 2px 8px rgba(58, 51, 53, 0.2),
         0 2px 8px rgba(58, 51, 53, 0.1);
-    }
-
-    @include tablet {
-      display: block;
     }
   }
 
