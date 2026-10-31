@@ -30,7 +30,15 @@ import Dock from '../components/Dock.astro';
       <main class="main">
         <aside class="main__sidebar">
           <Image class="main__logo" src={site.logo.logoImg} alt={site.logo.logoAlt} />
+          <nav class="main__nav" aria-label="サイドバー">
+            <span class="main__nav_pointer" aria-hidden="true">▶</span>
+            <a class="main__nav_link" href="#profile">プロフィール</a>
+            <a class="main__nav_link" href="#works">イラスト</a>
+            <a class="main__nav_link" href="#works">お問い合わせ</a>
+          </nav>
+          <div class="main__resizer" role="separator" aria-orientation="vertical" aria-label="サイドバーの幅"></div>
         </aside>
+        <div class="main__content"></div>
       </main>
       <Dock />
     </div>
@@ -42,6 +50,8 @@ import Dock from '../components/Dock.astro';
 
   .container {
     position: relative;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     height: 100%;
     border: 3px solid transparent;
@@ -83,12 +93,92 @@ import Dock from '../components/Dock.astro';
   }
 
   .main {
-    padding: 10px 15px 110px;
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    padding: 0;
+
+    &__sidebar {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 180px;
+      flex-shrink: 0;
+      padding: 16px 12px 110px;
+      border-right: 3px solid rgba(255, 255, 255, 0.45);
+      background-color: #b5b5b5;
+    }
 
     &__logo {
       width: 100px;
       height: 100px;
+      margin-inline: auto;
+    }
+
+    &__nav {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 8px;
+      margin-inline: auto;
+      padding-left: 18px;
+
+      &_pointer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        line-height: 1;
+        pointer-events: none;
+        transition:
+          translate 150ms ease-out,
+          opacity 120ms ease-out;
+      }
+
+      &_link {
+        display: block;
+        max-width: 300px;
+        width: 100%;
+        margin-inline: auto;
+        padding: 4px 8px;
+        background-color: #c0c0c0;
+        color: #000;
+        text-align: center;
+        box-shadow:
+          inset -1px -1px #0a0a0a,
+          inset 1px 1px #fff,
+          inset -2px -2px #808080,
+          inset 2px 2px #dfdfdf;
+
+        &:active {
+          box-shadow:
+            inset -1px -1px #fff,
+            inset 1px 1px #0a0a0a,
+            inset -2px -2px #dfdfdf,
+            inset 2px 2px #808080;
+        }
+      }
+    }
+
+    &__resizer {
+      position: absolute;
+      top: 0;
+      right: -4px;
+      z-index: 1;
+      width: 8px;
+      height: 100%;
+      cursor: col-resize;
+      touch-action: none;
+    }
+
+    &__content {
+      flex: 1;
+      min-width: 0;
+      padding: 10px 15px 110px;
     }
   }
 </style>
 
+<script src="../scripts/sidebar.ts"></script>
