@@ -38,11 +38,34 @@ const movePointer = (link: HTMLElement) => {
   pointer.style.opacity = '1';
 };
 
+const hidePointer = () => {
+  if (!pointer) return;
+  pointer.style.opacity = '0';
+};
+
+const focusedLink = () => {
+  const active = document.activeElement;
+  if (active instanceof HTMLAnchorElement && nav?.contains(active)) return active;
+  return null;
+};
+
 links.forEach((link) => {
   link.addEventListener('mouseenter', () => movePointer(link));
+  link.addEventListener('focus', () => movePointer(link));
 });
 
 nav?.addEventListener('mouseleave', () => {
-  if (!pointer) return;
-  pointer.style.opacity = '0';
+  const active = focusedLink();
+  if (active) {
+    movePointer(active);
+    return;
+  }
+  hidePointer();
+});
+
+nav?.addEventListener('focusout', (event) => {
+  const next = event.relatedTarget;
+  if (next instanceof Node && nav.contains(next)) return;
+  if (nav.matches(':hover')) return;
+  hidePointer();
 });

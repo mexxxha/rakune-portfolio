@@ -8,8 +8,16 @@
   font-display: swap;
 }
 
+html,
 body {
-  height: 100dvh;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100svh;
   padding: 1% 1% 20px;
   background-color: $c-background-base;
   font-family: 'DotGothic16', sans-serif;

@@ -1,0 +1,15 @@
+@use "variables" as *;
+
+// モバイル
+@mixin sp {
+  @media (max-width: $sp) {
+    @content;
+  }
+}
+
+// タブレット
+@mixin tablet {
+  @media (max-width: $tablet) {
+    @content;
+  }
+}

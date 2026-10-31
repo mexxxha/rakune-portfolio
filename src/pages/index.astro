@@ -22,9 +22,9 @@ import Dock from '../components/Dock.astro';
     <div class="container">
       <header class="header">
         <div class="header__buttons">
-          <button class="header__buttons_red"></button>
-          <button class="header__buttons_yellow"></button>
-          <button class="header__buttons_green"></button>
+          <span class="header__buttons_red" aria-hidden="true"></span>
+          <span class="header__buttons_yellow" aria-hidden="true"></span>
+          <span class="header__buttons_green" aria-hidden="true"></span>
         </div>
       </header>
       <main class="main">
@@ -34,7 +34,7 @@ import Dock from '../components/Dock.astro';
             <span class="main__nav_pointer" aria-hidden="true">▶</span>
             <a class="main__nav_link" href="#profile">プロフィール</a>
             <a class="main__nav_link" href="#works">イラスト</a>
-            <a class="main__nav_link" href="#works">お問い合わせ</a>
+            <a class="main__nav_link" href="#contact">お問い合わせ</a>
           </nav>
           <div class="main__resizer" role="separator" aria-orientation="vertical" aria-label="サイドバーの幅"></div>
         </aside>
@@ -50,10 +50,11 @@ import Dock from '../components/Dock.astro';
 
   .container {
     position: relative;
+    flex: 1;
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
+    min-height: 0;
     border: 3px solid transparent;
     border-radius: 20px;
     background:
@@ -96,7 +97,6 @@ import Dock from '../components/Dock.astro';
     display: flex;
     flex: 1;
     min-height: 0;
-    padding: 0;
 
     &__sidebar {
       position: relative;
@@ -105,9 +105,13 @@ import Dock from '../components/Dock.astro';
       gap: 16px;
       width: 180px;
       flex-shrink: 0;
-      padding: 16px 12px 110px;
+      padding: 16px 12px;
       border-right: 3px solid rgba(255, 255, 255, 0.45);
       background-color: #b5b5b5;
+
+      @include tablet {
+        display: none;
+      }
     }
 
     &__logo {
@@ -124,6 +128,7 @@ import Dock from '../components/Dock.astro';
       gap: 8px;
       margin-inline: auto;
       padding-left: 18px;
+      
 
       &_pointer {
         position: absolute;
@@ -176,10 +181,11 @@ import Dock from '../components/Dock.astro';
     &__content {
       flex: 1;
       min-width: 0;
-      padding: 10px 15px 110px;
+      min-height: 0;
+      padding: 10px 15px;
+      overflow-y: auto;
     }
   }
 </style>
 
 <script src="../scripts/sidebar.ts"></script>
-

@@ -30,9 +30,9 @@ const list = dock?.querySelector<HTMLElement>('.dock__list');
 // 0-2. icons[0] の計算済み width を受け取り、3・8・12 へ渡す。静止時の一辺（px）
 const baseSize = icons[0] ? parseFloat(getComputedStyle(icons[0]).width) : 0;
 // 8 へ渡す。ポインタ直上の最大サイズ（px）
-const maxSize = 70;
+const maxSize = 60;
 // 6 へ渡す。この距離（px）を超えると拡大しない
-const influenceRadius = 40;
+const influenceRadius = 50;
 // 0-3. list の計算済み column-gap を受け取り、3 へ渡す。アイコン同士の間隔（px）
 const gap = list ? parseFloat(getComputedStyle(list).columnGap) : 0;
 
@@ -84,13 +84,9 @@ const sizesAt = (pointerX: number, centers: number[]) =>
 const applySizes = (sizes: number[]) => {
   icons.forEach((icon, index) => {
     // 10. sizes[index] を px 文字列にする
-    const size = `${sizes[index]}px`;
+    const scale = baseSize === 0 ? 1 : sizes[index] / baseSize;
 
-    // 10. size を横幅へ書く
-    icon.style.width = size;
-
-    // 10. 同じ size を高さへ書く
-    icon.style.height = size;
+    icon.style.transform = `scale(${scale})`;
   });
 };
 

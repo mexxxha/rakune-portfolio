@@ -3,36 +3,117 @@ import { Image } from 'astro:assets';
 import { site } from '../data/site';
 ---
 
-<nav class="dock" aria-label="ドック">
-  <ul class="dock__list">
-    <li class="dock__item">
-      <a class="dock__icon" href="#profile" aria-label="プロフィール">
-        <Image src={site.profile.profileImg} alt="" />
-      </a>
-    </li>
-    <li class="dock__item">
-      <a class="dock__icon" href="#works" aria-label="イラスト">
-        <Image src={site.illustration[0].image} alt="" />
-      </a>
-    </li>
-  </ul>
-</nav>
+<div class="wrap">
+  <nav class="dock" aria-label="ドック">
+    <ul class="dock__list">
+      <li class="dock__item">
+        <a class="dock__icon" href="#profile" aria-label="プロフィール">
+          <Image src={site.profile.profileImg} alt="" />
+        </a>
+      </li>
+      <li class="dock__item">
+        <a class="dock__icon" href="#works" aria-label="イラスト">
+          <Image src={site.illustration[0].image} alt="" />
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <button class="dock__menu" type="button" aria-expanded="false" aria-label="メニュー">
+    <span class="dock__menu_icon" aria-hidden="true"></span>
+    <span class="dock__menu_icon" aria-hidden="true"></span>
+  </button>
+</div>
 
 <style lang="scss">
-  .dock {
+  @use '../globalStyles' as *;
+
+  .wrap {
     position: absolute;
     bottom: 14px;
     left: 50%;
     translate: -50% 0;
+  }
+
+  .dock__menu {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: calc(100% + 12px);
+    width: auto;
+    height: 100%;
+    aspect-ratio: 1;
+    padding: 0 14px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.75),
+      inset 0 -1px 1px rgba(255, 255, 255, 0.25),
+      0 8px 20px rgba(58, 51, 53, 0.12);
+    -webkit-backdrop-filter: blur(18px) saturate(1.8) brightness(1.08);
+    backdrop-filter: blur(18px) saturate(1.8) brightness(1.08);
+    transition:
+      scale 226ms ease,
+      background-color 226ms ease,
+      box-shadow 226ms ease;
+
+    &:active {
+      scale: 0.92;
+    }
+
+    &[aria-expanded='true'] {
+      background: rgba(255, 255, 255, 0.28);
+      box-shadow:
+        inset 0 2px 8px rgba(58, 51, 53, 0.2),
+        0 2px 8px rgba(58, 51, 53, 0.1);
+    }
+
+    @include tablet {
+      display: block;
+    }
+  }
+
+  .dock__menu_icon {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    right: 14px;
+    height: 2px;
+    background: #3a3335;
+    transition:
+      translate 200ms ease,
+      rotate 200ms ease;
+  }
+
+  .dock__menu_icon:first-child {
+    translate: 0 calc(-50% - 3.5px);
+  }
+
+  .dock__menu_icon:last-child {
+    translate: 0 calc(-50% + 3.5px);
+  }
+
+  .dock__menu[aria-expanded='true'] .dock__menu_icon:first-child {
+    translate: 0 -50%;
+    rotate: 45deg;
+  }
+  .dock__menu[aria-expanded='true'] .dock__menu_icon:last-child {
+    translate: 0 -50%;
+    rotate: -45deg;
+  }
+
+  .dock {
     height: 72px;
     padding: 0 8px 8px;
     border-radius: 22px;
-    background: rgba(255, 255, 255, 0.28);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.45);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.65),
-      0 10px 24px rgba(58, 51, 53, 0.18);
-    backdrop-filter: blur(16px) saturate(1.4);
+      inset 0 1px 0 rgba(255, 255, 255, 0.75),
+      inset 0 -1px 1px rgba(255, 255, 255, 0.25),
+      0 8px 20px rgba(58, 51, 53, 0.12);
+    -webkit-backdrop-filter: blur(18px) saturate(1.8) brightness(1.08);
+    backdrop-filter: blur(18px) saturate(1.8) brightness(1.08);
   }
 
   .dock__list {
@@ -50,14 +131,13 @@ import { site } from '../data/site';
   .dock__icon {
     display: grid;
     place-items: center;
-    width: 52px;
-    height: 52px;
+    width: 50px;
+    height: 50px;
     overflow: hidden;
     border-radius: 14px;
     background: rgba(255, 255, 255, 0.55);
-    transition:
-      width 150ms ease-out,
-      height 150ms ease-out;
+    transform-origin: center bottom;
+    transition: transform 150ms ease-out;
   }
 
   .dock__icon img {
@@ -68,3 +148,4 @@ import { site } from '../data/site';
 </style>
 
 <script src="../scripts/dock.ts"></script>
+<script src="../scripts/hamburger.ts"></script>
