@@ -1,6 +1,7 @@
+const main = document.querySelector<HTMLElement>('.main');
 const sidebar = document.querySelector<HTMLElement>('.main__sidebar');
 const resizer = document.querySelector<HTMLElement>('.main__resizer');
-const minWidth = 140;
+const minWidth = 200;
 const maxWidth = 420;
 
 resizer?.addEventListener('pointerdown', (event) => {
@@ -11,7 +12,7 @@ resizer?.addEventListener('pointerdown', (event) => {
   const onMove = (moveEvent: PointerEvent) => {
     const left = sidebar.getBoundingClientRect().left;
     const width = Math.min(maxWidth, Math.max(minWidth, moveEvent.clientX - left));
-    sidebar.style.width = `${width}px`;
+    main?.style.setProperty('--sidebar-width', `${width}px`);
   };
 
   const onUp = () => {
@@ -23,49 +24,46 @@ resizer?.addEventListener('pointerdown', (event) => {
   resizer.addEventListener('pointerup', onUp);
 });
 
-const nav = document.querySelector<HTMLElement>('.main__nav');
-const pointer = nav?.querySelector<HTMLElement>('.main__nav_pointer');
-const links = [...(nav?.querySelectorAll<HTMLAnchorElement>('.main__nav_link') ?? [])];
+const toggle = document.querySelector<HTMLButtonElement>('.main__sidebar_toggle');
+let busy = false;
 
-const movePointer = (link: HTMLElement) => {
-  if (!nav || !pointer) return;
+toggle?.addEventListener('click', () => {
+  if (busy || !main || !sidebar) return;
 
-  const navTop = nav.getBoundingClientRect().top;
-  const linkRect = link.getBoundingClientRect();
-  const y = linkRect.top - navTop + (linkRect.height - pointer.offsetHeight) / 2;
+  const collapsed = main.classList.contains('is-sidebar-collapsed');
 
-  pointer.style.translate = `0 ${y}px`;
-  pointer.style.opacity = '1';
-};
+  if (collapsed) {
+    busy = true;
+    main.classList.remove('is-sidebar-collapsed');
+    main.classList.add('is-opening');
+    toggle.setAttribute('aria-expanded', 'true');
+    toggle.setAttribute('aria-label', 'サイドバーを閉じる');
 
-const hidePointer = () => {
-  if (!pointer) return;
-  pointer.style.opacity = '0';
-};
+    const onOpenEnd = (event: AnimationEvent) => {
+      if (event.target !== sidebar) return;
 
-const focusedLink = () => {
-  const active = document.activeElement;
-  if (active instanceof HTMLAnchorElement && nav?.contains(active)) return active;
-  return null;
-};
+      sidebar.removeEventListener('animationend', onOpenEnd);
+      main.classList.remove('is-opening');
+      busy = false;
+    };
 
-links.forEach((link) => {
-  link.addEventListener('mouseenter', () => movePointer(link));
-  link.addEventListener('focus', () => movePointer(link));
-});
-
-nav?.addEventListener('mouseleave', () => {
-  const active = focusedLink();
-  if (active) {
-    movePointer(active);
+    sidebar.addEventListener('animationend', onOpenEnd);
     return;
   }
-  hidePointer();
-});
 
-nav?.addEventListener('focusout', (event) => {
-  const next = event.relatedTarget;
-  if (next instanceof Node && nav.contains(next)) return;
-  if (nav.matches(':hover')) return;
-  hidePointer();
+  busy = true;
+  main.classList.add('is-closing');
+
+  const onCloseEnd = (event: AnimationEvent) => {
+    if (event.target !== sidebar) return;
+
+    sidebar.removeEventListener('animationend', onCloseEnd);
+    main.classList.remove('is-closing');
+    main.classList.add('is-sidebar-collapsed');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'サイドバーを開く');
+    busy = false;
+  };
+
+  sidebar.addEventListener('animationend', onCloseEnd);
 });

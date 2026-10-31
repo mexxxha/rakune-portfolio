@@ -20,7 +20,7 @@ import { site } from '../data/site';
   </nav>
   <div class="dock__start">
     <nav class="dock__popup" id="dock-popup" aria-label="メニュー">
-      <p class="dock__popup_brand">らくね</p>
+      <p class="dock__popup_brand">{site.title}</p>
       <ul class="dock__popup_list">
         <li>
           <a class="dock__popup_link" href="#profile">
@@ -70,6 +70,17 @@ import { site } from '../data/site';
 <style lang="scss">
   @use '../globalStyles' as *;
 
+  @mixin glass {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.75),
+      inset 0 -1px 1px rgba(255, 255, 255, 0.25),
+      0 8px 20px rgba(58, 51, 53, 0.12);
+    -webkit-backdrop-filter: blur(18px) saturate(1.8) brightness(1.08);
+    backdrop-filter: blur(18px) saturate(1.8) brightness(1.08);
+  }
+
   .wrap {
     position: absolute;
     bottom: 14px;
@@ -77,185 +88,169 @@ import { site } from '../data/site';
     translate: -50% 0;
   }
 
-  .dock__start {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: calc(100% + 12px);
-    height: 100%;
-    aspect-ratio: 1;
-    @include tablet {
-      display: block;
-    }
-  }
-
-  .dock__popup {
-    display: none;
-    position: absolute;
-    right: 0;
-    bottom: calc(100% + 6px);
-    min-width: 280px;
-    padding: 2px;
-    border-radius: 8px;
-    background: #c0c0c0;
-    box-shadow:
-      inset -1px -1px #0a0a0a,
-      inset 1px 1px #fff,
-      inset -2px -2px #808080,
-      inset 2px 2px #dfdfdf;
-  }
-
-  .dock__start:has(.dock__menu[aria-expanded='true']) .dock__popup {
-    display: flex;
-  }
-
-  .dock__popup_brand {
-    font-family: $pokemon;
-    display: grid;
-    place-items: center;
-    width: 36px;
-    margin: 0;
-    border-radius: 6px 0 0 6px;
-    background: #3a3335;
-    color: #fff;
-    writing-mode: vertical-rl;
-    letter-spacing: 0.15em;
-  }
-
-  .dock__popup_list {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    padding: 2px;
-  }
-
-  .dock__popup_link {
-    font-family: $pokemon;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    min-height: 48px;
-    padding: 8px 16px 8px 10px;
-    color: #000;
-    line-height: 1;
-    &:hover,
-    &:focus-visible {
-      background: #000080;
-      color: #fff;
-      outline: none;
-    }
-  }
-
-  .dock__popup_thumb {
-    width: 28px;
-    height: 28px;
-    flex-shrink: 0;
-    object-fit: cover;
-  }
-
-  .dock__menu {
-    width: 100%;
-    height: 100%;
-    padding: 0 14px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.45);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.75),
-      inset 0 -1px 1px rgba(255, 255, 255, 0.25),
-      0 8px 20px rgba(58, 51, 53, 0.12);
-    -webkit-backdrop-filter: blur(18px) saturate(1.8) brightness(1.08);
-    backdrop-filter: blur(18px) saturate(1.8) brightness(1.08);
-    transition:
-      scale 226ms ease,
-      background-color 226ms ease,
-      box-shadow 226ms ease;
-
-    &:active {
-      scale: 0.92;
-    }
-
-    &[aria-expanded='true'] {
-      background: rgba(255, 255, 255, 0.28);
-      box-shadow:
-        inset 0 2px 8px rgba(58, 51, 53, 0.2),
-        0 2px 8px rgba(58, 51, 53, 0.1);
-    }
-  }
-
-  .dock__menu_icon {
-    position: absolute;
-    top: 50%;
-    left: 14px;
-    right: 14px;
-    height: 2px;
-    background: #3a3335;
-    transition:
-      translate 200ms ease,
-      rotate 200ms ease;
-  }
-
-  .dock__menu_icon:first-child {
-    translate: 0 calc(-50% - 3.5px);
-  }
-
-  .dock__menu_icon:last-child {
-    translate: 0 calc(-50% + 3.5px);
-  }
-
-  .dock__menu[aria-expanded='true'] .dock__menu_icon:first-child {
-    translate: 0 -50%;
-    rotate: 45deg;
-  }
-  .dock__menu[aria-expanded='true'] .dock__menu_icon:last-child {
-    translate: 0 -50%;
-    rotate: -45deg;
-  }
-
   .dock {
+    @include glass;
     height: 72px;
     padding: 0 8px 8px;
     border-radius: 22px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.45);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.75),
-      inset 0 -1px 1px rgba(255, 255, 255, 0.25),
-      0 8px 20px rgba(58, 51, 53, 0.12);
-    -webkit-backdrop-filter: blur(18px) saturate(1.8) brightness(1.08);
-    backdrop-filter: blur(18px) saturate(1.8) brightness(1.08);
-  }
 
-  .dock__list {
-    display: flex;
-    align-items: flex-end;
-    gap: 8px;
-    height: 100%;
-  }
+    &__list {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      height: 100%;
+    }
 
-  .dock__item {
-    display: flex;
-    align-items: flex-end;
-  }
+    &__icon {
+      display: grid;
+      place-items: center;
+      width: 50px;
+      height: 50px;
+      overflow: hidden;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.55);
+      transform-origin: center bottom;
+      transition: transform 150ms ease-out;
 
-  .dock__icon {
-    display: grid;
-    place-items: center;
-    width: 50px;
-    height: 50px;
-    overflow: hidden;
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.55);
-    transform-origin: center bottom;
-    transition: transform 150ms ease-out;
-  }
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
 
-  .dock__icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    &__start {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: calc(100% + 12px);
+      height: 100%;
+      aspect-ratio: 1;
+
+      @include tablet {
+        display: block;
+      }
+    }
+
+    &__start:has(&__menu[aria-expanded='true']) &__popup {
+      display: flex;
+    }
+
+    &__popup {
+      display: none;
+      position: absolute;
+      right: 0;
+      bottom: calc(100% + 6px);
+      min-width: 280px;
+      padding: 2px;
+      border-radius: 8px;
+      background: #c0c0c0;
+      box-shadow:
+        inset -1px -1px #0a0a0a,
+        inset 1px 1px #fff,
+        inset -2px -2px #808080,
+        inset 2px 2px #dfdfdf;
+
+      &_brand {
+        font-family: $pokemon;
+        display: grid;
+        place-items: center;
+        width: 36px;
+        border-radius: 6px 0 0 6px;
+        background: #3a3335;
+        color: #fff;
+        writing-mode: vertical-rl;
+        letter-spacing: 0.15em;
+      }
+
+      &_list {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        padding: 2px;
+      }
+
+      &_link {
+        font-family: $pokemon;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 48px;
+        padding: 8px 16px 8px 10px;
+        color: #000;
+        line-height: 1;
+
+        &:hover,
+        &:focus-visible {
+          background: #000080;
+          color: #fff;
+          outline: none;
+        }
+      }
+
+      &_thumb {
+        width: 28px;
+        height: 28px;
+        flex-shrink: 0;
+        object-fit: cover;
+      }
+    }
+
+    &__menu {
+      @include glass;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      transition:
+        scale 226ms ease,
+        background-color 226ms ease,
+        box-shadow 226ms ease;
+
+      &:active {
+        scale: 0.92;
+      }
+
+      &[aria-expanded='true'] {
+        background: rgba(255, 255, 255, 0.28);
+        box-shadow:
+          inset 0 2px 8px rgba(58, 51, 53, 0.2),
+          0 2px 8px rgba(58, 51, 53, 0.1);
+      }
+
+      &_icon {
+        position: absolute;
+        top: 50%;
+        left: 14px;
+        right: 14px;
+        height: 2px;
+        background: #3a3335;
+        transition:
+          translate 200ms ease,
+          rotate 200ms ease;
+
+        &:first-child {
+          translate: 0 calc(-50% - 3.5px);
+        }
+
+        &:last-child {
+          translate: 0 calc(-50% + 3.5px);
+        }
+      }
+
+      &[aria-expanded='true'] &_icon {
+        &:first-child {
+          translate: 0 -50%;
+          rotate: 45deg;
+        }
+
+        &:last-child {
+          translate: 0 -50%;
+          rotate: -45deg;
+        }
+      }
+    }
   }
 </style>
 
 <script src="../scripts/dock.ts"></script>
-<script src="../scripts/hamburger.ts"></script>
+<script src="../scripts/dockMenu.ts"></script>

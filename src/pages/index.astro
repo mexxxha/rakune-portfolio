@@ -1,10 +1,10 @@
 ---
-import { Image } from 'astro:assets';
 import { site } from '../data/site';
 import '../globalStyles/reset.css';
 import '../globalStyles/global.scss';
 
 import Dock from '../components/Dock.astro';
+import Sidebar from '../components/Sidebar.astro';
 ---
 
 <html lang="ja">
@@ -28,16 +28,7 @@ import Dock from '../components/Dock.astro';
         </div>
       </header>
       <main class="main">
-        <aside class="main__sidebar">
-          <Image class="main__logo" src={site.logo.logoImg} alt={site.logo.logoAlt} />
-          <nav class="main__nav" aria-label="サイドバー">
-            <span class="main__nav_pointer" aria-hidden="true">▶</span>
-            <a class="main__nav_link" href="#profile">プロフィール</a>
-            <a class="main__nav_link" href="#works">イラスト</a>
-            <a class="main__nav_link" href="#contact">お問い合わせ</a>
-          </nav>
-          <div class="main__resizer" role="separator" aria-orientation="vertical" aria-label="サイドバーの幅"></div>
-        </aside>
+        <Sidebar />
         <div class="main__content"></div>
       </main>
       <Dock />
@@ -94,98 +85,64 @@ import Dock from '../components/Dock.astro';
   }
 
   .main {
+    --sidebar-width: 200px;
+    position: relative;
     display: flex;
     flex: 1;
     min-height: 0;
 
-    &__sidebar {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      width: 180px;
-      flex-shrink: 0;
-      padding: 16px 12px;
-      border-right: 3px solid rgba(255, 255, 255, 0.45);
-      background-color: #b5b5b5;
-
-      @include tablet {
-        display: none;
-      }
-    }
-
-    &__logo {
-      width: 100px;
-      height: 100px;
-      margin-inline: auto;
-    }
-
-    &__nav {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      gap: 8px;
-      margin-inline: auto;
-      padding-left: 18px;
-      
-
-      &_pointer {
-        position: absolute;
-        top: 0;
-        left: 0;
-        opacity: 0;
-        line-height: 1;
-        pointer-events: none;
-        transition:
-          translate 150ms ease-out,
-          opacity 120ms ease-out;
-      }
-
-      &_link {
-        display: block;
-        max-width: 300px;
-        width: 100%;
-        margin-inline: auto;
-        padding: 4px 8px;
-        background-color: #c0c0c0;
-        color: #000;
-        text-align: center;
-        box-shadow:
-          inset -1px -1px #0a0a0a,
-          inset 1px 1px #fff,
-          inset -2px -2px #808080,
-          inset 2px 2px #dfdfdf;
-
-        &:active {
-          box-shadow:
-            inset -1px -1px #fff,
-            inset 1px 1px #0a0a0a,
-            inset -2px -2px #dfdfdf,
-            inset 2px 2px #808080;
-        }
-      }
-    }
-
-    &__resizer {
-      position: absolute;
-      top: 0;
-      right: -4px;
-      z-index: 1;
-      width: 8px;
-      height: 100%;
-      cursor: col-resize;
-      touch-action: none;
-    }
-
     &__content {
+      position: relative;
+      z-index: 0;
       flex: 1;
       min-width: 0;
       min-height: 0;
+      margin-left: var(--sidebar-width);
       padding: 10px 15px;
       overflow-y: auto;
+      transition: margin-left 320ms ease 130ms;
+
+      @include tablet {
+        margin-left: 0;
+      }
+    }
+
+    &.is-closing &__content {
+      transition: none;
+      animation: content-close 450ms ease forwards;
+    }
+
+    &.is-opening &__content {
+      transition: none;
+      animation: content-open 450ms ease forwards;
+    }
+
+    &.is-sidebar-collapsed &__content {
+      margin-left: 0;
+    }
+  }
+
+  @keyframes content-close {
+    0% {
+      margin-left: var(--sidebar-width);
+    }
+    30% {
+      margin-left: calc(var(--sidebar-width) + 14px);
+    }
+    100% {
+      margin-left: 0;
+    }
+  }
+
+  @keyframes content-open {
+    0% {
+      margin-left: 0;
+    }
+    70% {
+      margin-left: calc(var(--sidebar-width) + 14px);
+    }
+    100% {
+      margin-left: var(--sidebar-width);
     }
   }
 </style>
-
-<script src="../scripts/sidebar.ts"></script>

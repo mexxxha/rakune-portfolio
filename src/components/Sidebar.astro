@@ -1,0 +1,254 @@
+---
+import { Image } from 'astro:assets';
+import { site } from '../data/site';
+---
+
+<aside class="main__sidebar" id="sidebar">
+  <Image class="main__logo" src={site.logo.logoImg} alt={site.logo.logoAlt} />
+  <nav class="main__nav" aria-label="サイドバー">
+    <span class="main__nav_pointer" aria-hidden="true">▶</span>
+    <a class="main__nav_link" href="#profile">プロフィール</a>
+    <a class="main__nav_link" href="#works">イラスト</a>
+    <a class="main__nav_link" href="#contact">お問い合わせ</a>
+  </nav>
+  <div class="main__resizer" role="separator" aria-orientation="vertical" aria-label="サイドバーの幅"></div>
+</aside>
+<button class="main__sidebar_toggle" type="button" aria-expanded="true" aria-controls="sidebar" aria-label="サイドバーを閉じる">
+  <span class="main__sidebar_glyph" aria-hidden="true">
+    <span class="main__sidebar_glyph_bar"></span>
+  </span>
+</button>
+
+<style lang="scss">
+  @use '../globalStyles' as *;
+
+  .main__sidebar {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: var(--sidebar-width);
+    padding: 16px 12px;
+    border-right: 3px solid rgba(255, 255, 255, 0.45);
+    background-color: #b5b5b5;
+
+    @include tablet {
+      display: none;
+    }
+
+    :global(.main.is-closing) & {
+      z-index: 3;
+      animation: sidebar-close 450ms ease forwards;
+    }
+
+    :global(.main.is-opening) & {
+      z-index: 3;
+      animation: sidebar-open 450ms ease forwards;
+    }
+
+    :global(.main.is-sidebar-collapsed) & {
+      visibility: hidden;
+    }
+  }
+
+  .main__logo {
+    width: 100px;
+    height: 100px;
+    margin-inline: auto;
+  }
+
+  .main__nav {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    &_pointer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      line-height: 1;
+      pointer-events: none;
+      transition:
+        translate 150ms ease-out,
+        opacity 120ms ease-out;
+    }
+
+    &_link {
+      display: block;
+      max-width: 300px;
+      width: 100%;
+      margin-inline: auto;
+      padding: 4px 8px;
+      background-color: #c0c0c0;
+      color: #000;
+      text-align: center;
+      box-shadow:
+        inset -1px -1px #0a0a0a,
+        inset 1px 1px #fff,
+        inset -2px -2px #808080,
+        inset 2px 2px #dfdfdf;
+
+      &:active {
+        box-shadow:
+          inset -1px -1px #fff,
+          inset 1px 1px #0a0a0a,
+          inset -2px -2px #dfdfdf,
+          inset 2px 2px #808080;
+      }
+    }
+  }
+
+  .main__resizer {
+    position: absolute;
+    top: 0;
+    right: -4px;
+    width: 8px;
+    height: 100%;
+    cursor: col-resize;
+    touch-action: none;
+  }
+
+  .main__sidebar {
+    &_toggle {
+      position: absolute;
+      z-index: 4;
+      top: 8px;
+      left: calc(var(--sidebar-width) - 24px);
+      display: grid;
+      width: 16px;
+      height: 16px;
+      padding: 3px;
+      background: #141414;
+      box-shadow:
+        inset 1px 1px #f4f4f4,
+        inset -1px -1px #4a4a4a,
+        inset 2px 2px #bdbdbd,
+        inset -2px -2px #6e6e6e;
+
+      @include tablet {
+        display: none;
+      }
+
+      :global(.main.is-closing) & {
+        top: 12px;
+        left: 12px;
+        transition:
+          top 320ms ease 130ms,
+          left 320ms ease 130ms;
+      }
+
+      :global(.main.is-sidebar-collapsed) & {
+        top: 12px;
+        left: 12px;
+      }
+
+      :global(.main.is-opening) & {
+        animation: toggle-open 450ms ease forwards;
+      }
+    }
+
+    &_glyph {
+      position: relative;
+      overflow: hidden;
+    }
+
+    &_glyph_bar {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 4px;
+      background: linear-gradient(90deg, #8a8a8a 3px, #e8e8e8 3px);
+
+      :global(.main.is-closing) & {
+        animation: sidebar-glyph-close 450ms ease forwards;
+      }
+
+      :global(.main.is-opening) & {
+        animation: sidebar-glyph-open 450ms ease forwards;
+      }
+
+      :global(.main.is-sidebar-collapsed) & {
+        translate: -8px 0;
+      }
+    }
+  }
+
+  @keyframes sidebar-close {
+    0% {
+      width: var(--sidebar-width);
+      translate: 0 0;
+    }
+    30% {
+      width: calc(var(--sidebar-width) + 14px);
+      translate: 0 0;
+    }
+    100% {
+      width: var(--sidebar-width);
+      translate: calc(-1 * var(--sidebar-width) - 20px) 0;
+    }
+  }
+
+  @keyframes sidebar-glyph-close {
+    0% {
+      translate: 0 0;
+    }
+    30% {
+      translate: 3px 0;
+    }
+    100% {
+      translate: -8px 0;
+    }
+  }
+
+  @keyframes sidebar-open {
+    0% {
+      width: var(--sidebar-width);
+      translate: calc(-1 * var(--sidebar-width) - 20px) 0;
+    }
+    70% {
+      width: calc(var(--sidebar-width) + 14px);
+      translate: 0 0;
+    }
+    100% {
+      width: var(--sidebar-width);
+      translate: 0 0;
+    }
+  }
+
+  @keyframes sidebar-glyph-open {
+    0% {
+      translate: -8px 0;
+    }
+    70% {
+      translate: 3px 0;
+    }
+    100% {
+      translate: 0 0;
+    }
+  }
+
+  @keyframes toggle-open {
+    0% {
+      top: 12px;
+      left: 12px;
+    }
+    70% {
+      top: 8px;
+      left: calc(var(--sidebar-width) + 14px - 24px);
+    }
+    100% {
+      top: 8px;
+      left: calc(var(--sidebar-width) - 24px);
+    }
+  }
+</style>
+
+<script src="../scripts/sidebar.ts"></script>
+<script src="../scripts/navPointer.ts"></script>
