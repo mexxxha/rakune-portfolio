@@ -91,7 +91,7 @@ import { site } from '../data/site';
       color: #000;
       text-align: center;
       @include bevel-inset;
-      
+
       &:active,
       &[aria-current='true'] {
         @include bevel-inset-pressed;
@@ -250,5 +250,6 @@ import { site } from '../data/site';
   }
 </style>
 
-<script src="../scripts/sidebar.ts"></script>
+<script src="../scripts/sidebarResize.ts"></script>
+<script src="../scripts/sidebarToggle.ts"></script>
 <script src="../scripts/navPointer.ts"></script>
