@@ -9,8 +9,10 @@ import { site } from '../data/site';
     {
       site.illustration.map((item) => (
         <li class="works__item">
-          <Image class="works__img" src={item.image} alt={item.alt} />
-          <p class="works__name">{item.title}</p>
+          <button class="works__card" type="button" data-illustration={item.id} data-src={item.image.src} data-title={item.title} data-alt={item.alt}>
+            <Image class="works__img" src={item.image} alt="" />
+            <span class="works__name">{item.title}</span>
+          </button>
         </li>
       ))
     }
@@ -39,6 +41,13 @@ import { site } from '../data/site';
       min-height: 0;
       padding: 8px;
       @include bevel-raised;
+    }
+
+    &__card {
+      display: block;
+      width: 100%;
+      color: inherit;
+      text-align: center;
     }
 
     &__img {

@@ -1,0 +1,73 @@
+---
+
+---
+
+<div class="viewer" id="viewer" hidden>
+  <div class="viewer__bar">
+    <p class="viewer__title"></p>
+    <button class="viewer__close" type="button" aria-label="閉じる"></button>
+  </div>
+  <div class="viewer__body">
+    <img class="viewer__img" alt="" />
+  </div>
+</div>
+
+<style lang="scss">
+  @use '../globalStyles' as *;
+
+  .viewer {
+    position: absolute;
+    z-index: 3;
+    top: 48px;
+    right: 24px;
+    bottom: 110px;
+    left: 24px;
+    display: flex;
+    flex-direction: column;
+    max-width: 720px;
+    margin-inline: auto;
+    background: $c-chrome;
+    @include bevel-raised(8px);
+
+    &[hidden] {
+      display: none;
+    }
+
+    &__bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 3px 3px 0;
+      padding: 3px;
+      border-radius: 2px;
+      background-color: #000080;
+      color: #fff;
+    }
+
+    &__title {
+      margin: 0;
+      padding-inline: 8px;
+    }
+
+    &__close {
+      width: 22px;
+      height: 20px;
+      background: $c-chrome;
+      @include bevel-raised(2px);
+    }
+
+    &__body {
+      flex: 1;
+      min-height: 0;
+      padding: 12px;
+    }
+
+    &__img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+</style>
+
+<script src="../scripts/viewer.ts"></script>

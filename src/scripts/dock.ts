@@ -51,4 +51,9 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && dock) {
     centers = [];
     resetSizes();
   });
+
+  dock.addEventListener('scroll', () => {
+    if (centers.length === 0) return;
+    centers = measureCenters();
+  });
 }

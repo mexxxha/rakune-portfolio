@@ -6,16 +6,15 @@ import { site } from '../data/site';
 <div class="wrap">
   <nav class="dock" aria-label="ドック">
     <ul class="dock__list">
-      <li>
-        <a class="dock__icon" href="#profile" aria-label="プロフィール">
-          <Image src={site.profile.profileImg} alt="" />
-        </a>
-      </li>
-      <li>
-        <a class="dock__icon" href="#works" aria-label="イラスト">
-          <Image src={site.illustration[0].image} alt="" />
-        </a>
-      </li>
+      {
+        site.illustration.map((item) => (
+          <li>
+            <button class="dock__icon" type="button" aria-label={item.title} data-illustration={item.id} data-src={item.image.src} data-title={item.title} data-alt={item.alt}>
+              <Image src={item.image} alt="" />
+            </button>
+          </li>
+        ))
+      }
     </ul>
   </nav>
   <div class="dock__start">
@@ -76,18 +75,46 @@ import { site } from '../data/site';
     left: 50%;
     translate: -50% 0;
     z-index: 4;
+
+    @include tablet {
+      display: flex;
+      align-items: flex-end;
+      gap: 12px;
+    }
   }
 
   .dock {
     height: 72px;
-    padding: 0 8px 8px;
+    padding: 0 0 8px;
     @include bevel-raised;
+
+    @include tablet {
+      max-width: calc(5 * 50px + 4 * 8px + 16px + 4px);
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
 
     &__list {
       display: flex;
       align-items: flex-end;
       gap: 8px;
       height: 100%;
+      padding-inline: 8px;
+
+      @include tablet {
+        width: max-content;
+      }
+
+      li:nth-child(n + 11) {
+        @media (min-width: ($tablet + 1px)) {
+          display: none;
+        }
+      }
     }
 
     &__icon {
@@ -118,6 +145,11 @@ import { site } from '../data/site';
 
       @include tablet {
         display: block;
+        position: relative;
+        top: auto;
+        left: auto;
+        height: 72px;
+        flex-shrink: 0;
       }
     }
 
