@@ -18,6 +18,8 @@ import { site } from '../data/site';
 </section>
 
 <style lang="scss">
+  @use '../globalStyles' as *;
+
   .works {
     margin: 30px 0 0;
 
@@ -36,10 +38,7 @@ import { site } from '../data/site';
       min-width: 0;
       min-height: 0;
       padding: 8px;
-      background: #c0c0c0;
-      border: 2px solid;
-      border-radius: 4px;
-      border-color: #dfdfdf #0a0a0a #0a0a0a #dfdfdf;
+      @include bevel-raised;
     }
 
     &__img {

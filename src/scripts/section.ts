@@ -6,14 +6,26 @@ const show = (id: string) => {
   const target = content.querySelector<HTMLElement>(`#${id}`);
   if (!target) return;
 
-  content.querySelectorAll('section').forEach((section) => {
-    section.hidden = section !== target;
-  });
+  document.documentElement.dataset.section = id;
 
   content.scrollTop = 0;
+  setCurrent(id);
 };
 
-show('profile');
+const setCurrent = (id: string) => {
+  document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((link) => {
+    const target = link.getAttribute('href')?.slice(1);
+    if (target === id) link.setAttribute('aria-current', 'true');
+    else link.removeAttribute('aria-current');
+  });
+};
+
+const idFromHash = () => {
+  const id = location.hash.slice(1);
+  if (id && content?.querySelector(`#${id}`)) return id;
+  return 'profile';
+};
+show(idFromHash());
 
 document.addEventListener('click', (event) => {
   if (!(event.target instanceof Element)) return;
@@ -25,5 +37,11 @@ document.addEventListener('click', (event) => {
   if (!id || !content?.querySelector(`#${id}`)) return;
 
   event.preventDefault();
+  if (id === idFromHash()) return;
+  history.pushState(null, '', `#${id}`);
   show(id);
+});
+
+window.addEventListener('popstate', () => {
+  show(idFromHash());
 });

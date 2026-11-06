@@ -16,14 +16,14 @@ export const site = {
   description: "らくねのポートフォリオサイト",
   logo: {
     logoImg: Logo,
-    logoAlt: "",
+    logoAlt: "らくね",
   },
   profile: {
     name: "らくね",
     job: "illustrator",
     bio: "フリーランスでイラストレーターやってます。",
     profileImg: Profile,
-    profileImgAlt: "",
+    profileImgAlt: "らくねのアイコン",
   },
   illustration: [
     { id: 1,  title: "イラスト１", image: illust01,  alt: "" },

@@ -7,18 +7,26 @@ import Dock from '../components/Dock.astro';
 import Sidebar from '../components/Sidebar.astro';
 import Profile from '../components/Profile.astro';
 import Works from '../components/Works.astro';
+import Contact from '../components/Contact.astro';
 ---
 
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <title>{site.title}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet" />
+    <script is:inline>
+      (function () {
+        var id = location.hash.slice(1);
+        var known = { profile: 1, works: 1, contact: 1 };
+        document.documentElement.dataset.section = known[id] ? id : 'profile';
+      })();
+    </script>
   </head>
   <body>
     <div class="container">
@@ -34,6 +42,7 @@ import Works from '../components/Works.astro';
         <div class="main__content">
           <Profile />
           <Works />
+          <Contact />
         </div>
       </main>
       <Dock />
@@ -51,10 +60,7 @@ import Works from '../components/Works.astro';
     flex-direction: column;
     width: 100%;
     min-height: 0;
-    border: 2px solid;
-    border-radius: 8px;
-    border-color: #dfdfdf #0a0a0a #0a0a0a #dfdfdf;
-    background: #c0c0c0;
+    @include bevel-raised(8px);
     overflow: hidden;
   }
 
@@ -120,6 +126,8 @@ import Works from '../components/Works.astro';
 
   .main {
     --sidebar-width: 200px;
+    --dock-clearance: 104px;
+
     position: relative;
     display: flex;
     flex: 1;
@@ -132,9 +140,8 @@ import Works from '../components/Works.astro';
       min-width: 0;
       min-height: 0;
       margin-left: var(--sidebar-width);
-      padding: 10px 15px;
+      padding: 10px 15px var(--dock-clearance);
       overflow-y: auto;
-      transition: margin-left 320ms ease 130ms;
 
       @include tablet {
         margin-left: 0;
@@ -142,13 +149,11 @@ import Works from '../components/Works.astro';
     }
 
     &.is-closing &__content {
-      transition: none;
-      animation: content-close 450ms ease forwards;
+      animation: content-close $sidebar-duration ease forwards;
     }
 
     &.is-opening &__content {
-      transition: none;
-      animation: content-open 450ms ease forwards;
+      animation: content-open $sidebar-duration ease forwards;
     }
 
     &.is-sidebar-collapsed &__content {
@@ -156,12 +161,22 @@ import Works from '../components/Works.astro';
     }
   }
 
+  :global(.main__content > section) {
+    display: none;
+  }
+
+  :global(html[data-section='profile'] #profile),
+  :global(html[data-section='works'] #works),
+  :global(html[data-section='contact'] #contact) {
+    display: block;
+  }
+
   @keyframes content-close {
     0% {
       margin-left: var(--sidebar-width);
     }
     30% {
-      margin-left: calc(var(--sidebar-width) + 14px);
+      margin-left: calc(var(--sidebar-width) + $sidebar-overshoot);
     }
     100% {
       margin-left: 0;
@@ -173,7 +188,7 @@ import Works from '../components/Works.astro';
       margin-left: 0;
     }
     70% {
-      margin-left: calc(var(--sidebar-width) + 14px);
+      margin-left: calc(var(--sidebar-width) + $sidebar-overshoot);
     }
     100% {
       margin-left: var(--sidebar-width);

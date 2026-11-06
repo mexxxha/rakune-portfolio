@@ -11,7 +11,7 @@ import { site } from '../data/site';
     <a class="main__nav_link" href="#works">イラスト</a>
     <a class="main__nav_link" href="#contact">お問い合わせ</a>
   </nav>
-  <div class="main__resizer" role="separator" aria-orientation="vertical" aria-label="サイドバーの幅"></div>
+  <div class="main__resizer" role="separator" aria-orientation="vertical" aria-label="サイドバーの幅" aria-valuemin="200" aria-valuemax="420" aria-valuenow="200" tabindex="0"></div>
 </aside>
 <button class="main__sidebar_toggle" type="button" aria-expanded="true" aria-controls="sidebar" aria-label="サイドバーを閉じる">
   <span class="main__sidebar_glyph" aria-hidden="true">
@@ -32,7 +32,7 @@ import { site } from '../data/site';
     flex-direction: column;
     gap: 16px;
     width: var(--sidebar-width);
-    padding: 16px 12px;
+    padding: 16px 12px var(--dock-clearance);
     border-right: 2px solid #0a0a0a;
     box-shadow: inset -1px 0 #dfdfdf;
     background-color: #b5b5b5;
@@ -43,12 +43,12 @@ import { site } from '../data/site';
 
     :global(.main.is-closing) & {
       z-index: 3;
-      animation: sidebar-close 450ms ease forwards;
+      animation: sidebar-close $sidebar-duration ease forwards;
     }
 
     :global(.main.is-opening) & {
       z-index: 3;
-      animation: sidebar-open 450ms ease forwards;
+      animation: sidebar-open $sidebar-duration ease forwards;
     }
 
     :global(.main.is-sidebar-collapsed) & {
@@ -90,18 +90,11 @@ import { site } from '../data/site';
       background-color: #c0c0c0;
       color: #000;
       text-align: center;
-      box-shadow:
-        inset -1px -1px #0a0a0a,
-        inset 1px 1px #fff,
-        inset -2px -2px #808080,
-        inset 2px 2px #dfdfdf;
-
-      &:active {
-        box-shadow:
-          inset -1px -1px #fff,
-          inset 1px 1px #0a0a0a,
-          inset -2px -2px #dfdfdf,
-          inset 2px 2px #808080;
+      @include bevel-inset;
+      
+      &:active,
+      &[aria-current='true'] {
+        @include bevel-inset-pressed;
       }
     }
   }
@@ -114,6 +107,10 @@ import { site } from '../data/site';
     height: 100%;
     cursor: col-resize;
     touch-action: none;
+    &:focus-visible {
+      outline: 2px solid #000080;
+      outline-offset: 1px;
+    }
   }
 
   .main__sidebar {
@@ -152,7 +149,7 @@ import { site } from '../data/site';
       }
 
       :global(.main.is-opening) & {
-        animation: toggle-open 450ms ease forwards;
+        animation: toggle-open $sidebar-duration ease forwards;
       }
     }
 
@@ -170,11 +167,11 @@ import { site } from '../data/site';
       background: linear-gradient(90deg, #8a8a8a 3px, #e8e8e8 3px);
 
       :global(.main.is-closing) & {
-        animation: sidebar-glyph-close 450ms ease forwards;
+        animation: sidebar-glyph-close $sidebar-duration ease forwards;
       }
 
       :global(.main.is-opening) & {
-        animation: sidebar-glyph-open 450ms ease forwards;
+        animation: sidebar-glyph-open $sidebar-duration ease forwards;
       }
 
       :global(.main.is-sidebar-collapsed) & {
@@ -189,7 +186,7 @@ import { site } from '../data/site';
       translate: 0 0;
     }
     30% {
-      width: calc(var(--sidebar-width) + 14px);
+      width: calc(var(--sidebar-width) + $sidebar-overshoot);
       translate: 0 0;
     }
     100% {
@@ -216,7 +213,7 @@ import { site } from '../data/site';
       translate: calc(-1 * var(--sidebar-width) - 20px) 0;
     }
     70% {
-      width: calc(var(--sidebar-width) + 14px);
+      width: calc(var(--sidebar-width) + $sidebar-overshoot);
       translate: 0 0;
     }
     100% {
@@ -244,7 +241,7 @@ import { site } from '../data/site';
     }
     70% {
       top: 8px;
-      left: calc(var(--sidebar-width) + 14px - 24px);
+      left: calc(var(--sidebar-width) + $sidebar-overshoot - 24px);
     }
     100% {
       top: 8px;

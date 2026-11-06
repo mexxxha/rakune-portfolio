@@ -13,3 +13,26 @@
     @content;
   }
 }
+
+@mixin bevel-raised($radius: 4px) {
+  background: $c-chrome;
+  border: 2px solid;
+  border-radius: $radius;
+  border-color: $c-bevel-light $c-bevel-dark $c-bevel-dark $c-bevel-light;
+}
+
+@mixin bevel-inset {
+  box-shadow:
+    inset -1px -1px $c-bevel-dark,
+    inset 1px 1px $c-highlight,
+    inset -2px -2px $c-bevel-mid,
+    inset 2px 2px $c-bevel-light;
+}
+
+@mixin bevel-inset-pressed {
+  box-shadow:
+    inset -1px -1px $c-highlight,
+    inset 1px 1px $c-bevel-dark,
+    inset -2px -2px $c-bevel-light,
+    inset 2px 2px $c-bevel-mid;
+}
