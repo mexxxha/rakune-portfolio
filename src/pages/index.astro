@@ -3,6 +3,7 @@ import { site } from '../data/site';
 import '../globalStyles/reset.css';
 import '../globalStyles/global.scss';
 
+import Boot from '../components/Boot.astro';
 import Dock from '../components/Dock.astro';
 import Viewer from '../components/Viewer.astro';
 import Sidebar from '../components/Sidebar.astro';
@@ -30,6 +31,7 @@ import Contact from '../components/Contact.astro';
     </script>
   </head>
   <body>
+    <Boot />
     <div class="container">
       <header class="header">
         <div class="header__buttons">
