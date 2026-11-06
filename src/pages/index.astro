@@ -6,6 +6,7 @@ import '../globalStyles/global.scss';
 import Dock from '../components/Dock.astro';
 import Sidebar from '../components/Sidebar.astro';
 import Profile from '../components/Profile.astro';
+import Works from '../components/Works.astro';
 ---
 
 <html lang="ja">
@@ -32,6 +33,7 @@ import Profile from '../components/Profile.astro';
         <Sidebar />
         <div class="main__content">
           <Profile />
+          <Works />
         </div>
       </main>
       <Dock />
@@ -178,3 +180,5 @@ import Profile from '../components/Profile.astro';
     }
   }
 </style>
+
+<script src="../scripts/section.ts"></script>
