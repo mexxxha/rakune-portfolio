@@ -10,7 +10,7 @@ import { site } from '../data/site';
       site.illustration.map((item) => (
         <li class="works__item">
           <button class="works__card" type="button" data-illustration={item.id} data-src={item.image.src} data-title={item.title} data-alt={item.alt}>
-            <Image class="works__img" src={item.image} alt="" />
+            <Image class="works__img" src={item.image} alt="" width={320} height={320} loading="eager" />
             <span class="works__name">{item.title}</span>
           </button>
         </li>

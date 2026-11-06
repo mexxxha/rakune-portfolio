@@ -37,4 +37,14 @@ export const site = {
     { id: 9,  title: "", image: illust09,  alt: "" },
     { id: 10, title: "", image: illust010, alt: "" },
   ],
+  nav: [
+    { id: "profile", label: "プロフィール", kana: "ぷろふぃーる", icon: "pinhead:pixel-person" },
+    { id: "works", label: "イラスト", kana: "いらすと", icon: "pixelarticons:images" },
+    { id: "contact", label: "お問い合わせ", kana: "おといあわせ", icon: "pinhead:pixel-envelope" },
+  ],
+  social: [
+    { label: "いんすたぐらむ", href: "#", icon: "pixelarticons:instagram" },
+    { label: "ついったー", href: "#", icon: "pixelarticons:x" },
+    { label: "ゆーちゅーぶ", href: "#", icon: "pixelarticons:youtube-solid" },
+  ],
 }

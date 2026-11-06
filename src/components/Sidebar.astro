@@ -7,9 +7,11 @@ import { site } from '../data/site';
   <Image class="main__logo" src={site.logo.logoImg} alt={site.logo.logoAlt} />
   <nav class="main__nav" aria-label="サイドバー">
     <span class="main__nav_pointer" aria-hidden="true">▶</span>
-    <a class="main__nav_link" href="#profile">プロフィール</a>
-    <a class="main__nav_link" href="#works">イラスト</a>
-    <a class="main__nav_link" href="#contact">お問い合わせ</a>
+    {
+      site.nav.map((item) => (
+        <a class="main__nav_link" href={`#${item.id}`}>{item.label}</a>
+      ))
+    }
   </nav>
   <div class="main__resizer" role="separator" aria-orientation="vertical" aria-label="サイドバーの幅" aria-valuemin="200" aria-valuemax="420" aria-valuenow="200" tabindex="0"></div>
 </aside>
