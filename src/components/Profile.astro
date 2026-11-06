@@ -1,0 +1,46 @@
+---
+import { Image } from 'astro:assets';
+import { site } from '../data/site';
+---
+
+<section class="profile" id="profile">
+  <Image class="profile__img" src={site.profile.profileImg} alt={site.profile.profileImgAlt} />
+  <div class="profile__body">
+    <h1 class="profile__name">{site.profile.name}</h1>
+    <p class="profile__job">{site.profile.job}</p>
+    <p class="profile__bio">{site.profile.bio}</p>
+  </div>
+</section>
+
+<style lang="scss">
+  .profile {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin: 30px 0 0 0;
+    padding: 16px;
+    background: #c0c0c0;
+    border: 2px solid;
+    border-radius: 4px;
+    border-color: #dfdfdf #0a0a0a #0a0a0a #dfdfdf;
+
+    &__img {
+      width: 160px;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 2px;
+    }
+
+    &__name {
+      font-size: 24px;
+    }
+
+    &__job {
+      margin: 4px 0 0;
+    }
+
+    &__bio {
+      margin: 12px 0 0;
+    }
+  }
+</style>

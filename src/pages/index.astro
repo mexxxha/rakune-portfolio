@@ -5,6 +5,7 @@ import '../globalStyles/global.scss';
 
 import Dock from '../components/Dock.astro';
 import Sidebar from '../components/Sidebar.astro';
+import Profile from '../components/Profile.astro';
 ---
 
 <html lang="ja">
@@ -29,7 +30,9 @@ import Sidebar from '../components/Sidebar.astro';
       </header>
       <main class="main">
         <Sidebar />
-        <div class="main__content"></div>
+        <div class="main__content">
+          <Profile />
+        </div>
       </main>
       <Dock />
     </div>
