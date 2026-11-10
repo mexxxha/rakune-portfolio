@@ -12,8 +12,7 @@ const pushLine = (text: string) => {
   line.className = 'boot__line';
   line.textContent = text;
   log.append(line);
-
-  while (log.children.length > 8) log.firstElementChild?.remove();
+  log.scrollTop = log.scrollHeight;
 };
 
 const run = async () => {
@@ -48,7 +47,7 @@ const run = async () => {
   prompt.append(cursor);
   log.append(prompt);
 
-  while (log.children.length > 8) log.firstElementChild?.remove();
+  log.scrollTop = log.scrollHeight;
 
   await wait(1060);
 

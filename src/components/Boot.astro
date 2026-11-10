@@ -3,12 +3,7 @@
 ---
 
 <div class="boot" id="boot" aria-hidden="true">
-  <div class="boot__window">
-    <p class="boot__title">COMMAND PROMPT</p>
-    <div class="boot__screen">
-      <div class="boot__log" id="boot-log"></div>
-    </div>
-  </div>
+  <div class="boot__log" id="boot-log"></div>
 </div>
 
 <style lang="scss">
@@ -18,36 +13,21 @@
     position: fixed;
     z-index: 10;
     inset: 0;
-    display: grid;
-    place-items: center;
-    background: $c-background-base;
-
-    &__window {
-      width: min(440px, calc(100% - 32px));
-      @include bevel-raised(8px);
-    }
-
-    &__title {
-      margin: 3px 3px 0;
-      padding: 4px 8px;
-      border-radius: 2px;
-      background-color: #000080;
-      color: #fff;
-      line-height: 1.4;
-    }
-
-    &__screen {
-      margin: 8px;
-      padding: 8px;
-      background: #000;
-      color: $c-chrome;
-    }
+    display: flex;
+    padding: 24px;
+    background: #000;
+    color: $c-chrome;
 
     &__log {
-      height: 160px;
-      overflow: hidden;
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      scrollbar-width: none;
       font-size: 16px;
       line-height: 20px;
+      &::-webkit-scrollbar {
+        display: none;
+      }
     }
 
     &__line {

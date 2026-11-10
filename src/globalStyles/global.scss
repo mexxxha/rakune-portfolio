@@ -20,5 +20,9 @@ body {
   height: 100svh;
   padding: 1% 1% 20px;
   background-color: $c-background-base;
+  background-image: url('../assets/background.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
   font-family: 'DotGothic16', sans-serif;
 }
