@@ -1,0 +1,103 @@
+---
+import { getImage } from 'astro:assets';
+import { site } from '../data/site';
+
+const sources = await Promise.all(
+  site.illustration.map(async (item) => (await getImage({ src: item.image, width: 560, height: 360 })).src),
+);
+---
+
+<div class="crash" id="crash" hidden data-sources={JSON.stringify(sources)}></div>
+
+<style lang="scss">
+  @use '../globalStyles' as *;
+
+  .crash {
+    position: fixed;
+    z-index: 20;
+    inset: 0;
+
+    &[hidden] {
+      display: none;
+    }
+
+    :global(.crash__dialog) {
+      position: absolute;
+      width: 280px;
+      background: $c-chrome;
+      @include bevel-raised(8px);
+    }
+
+    :global(.crash__bar) {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 3px 3px 0;
+      padding: 3px 3px 3px 8px;
+      border-radius: 2px;
+      background: #000080;
+      color: #fff;
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+    }
+
+    :global(.crash__mark) {
+      position: relative;
+      width: 22px;
+      height: 20px;
+      background: #c0c0c0;
+      border: 1px solid;
+      border-radius: 2px;
+      border-color: #fff #0a0a0a #0a0a0a #fff;
+
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: 3px;
+        left: 3px;
+        height: 1px;
+        background: #000;
+      }
+
+      &::before {
+        rotate: 45deg;
+      }
+
+      &::after {
+        rotate: -45deg;
+      }
+    }
+
+    :global(.crash__body) {
+      margin: 0;
+      padding: 12px;
+    }
+
+    :global(.crash__img) {
+      display: block;
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+
+    :global(.crash__ok) {
+      display: block;
+      text-align: center;
+      width: 76px;
+      height: 22px;
+      margin: 0 auto 12px;
+      padding: 0;
+      background: #c0c0c0;
+      border: 1px solid;
+      border-radius: 2px;
+      border-color: #fff #0a0a0a #0a0a0a #fff;
+      box-shadow: inset 1px 1px #dfdfdf;
+      line-height: 20px;
+    }
+  }
+</style>
+
+<script src="../scripts/crash.ts"></script>

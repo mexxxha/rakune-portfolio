@@ -4,6 +4,7 @@ import '../globalStyles/reset.css';
 import '../globalStyles/global.scss';
 
 import Boot from '../components/Boot.astro';
+import Crash from '../components/Crash.astro';
 import Dock from '../components/Dock.astro';
 import Viewer from '../components/Viewer.astro';
 import Sidebar from '../components/Sidebar.astro';
@@ -32,12 +33,13 @@ import Contact from '../components/Contact.astro';
   </head>
   <body>
     <Boot />
+    <Crash />
     <div class="container">
       <header class="header">
         <div class="header__buttons">
           <span class="header__buttons_minimize" aria-hidden="true"></span>
           <span class="header__buttons_maximize" aria-hidden="true"></span>
-          <span class="header__buttons_close" aria-hidden="true"></span>
+          <button class="header__buttons_close" type="button" aria-label="閉じる"></button>
         </div>
       </header>
       <main class="main">
@@ -66,6 +68,10 @@ import Contact from '../components/Contact.astro';
     min-height: 0;
     @include bevel-raised(8px);
     overflow: hidden;
+
+    &.is-closed {
+      display: none;
+    }
   }
 
   .header {
@@ -82,7 +88,8 @@ import Contact from '../components/Contact.astro';
       align-items: center;
       gap: 7px;
 
-      span {
+      span,
+      button {
         position: relative;
         width: 22px;
         height: 20px;
