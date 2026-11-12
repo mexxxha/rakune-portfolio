@@ -17,15 +17,13 @@
 
   .viewer {
     position: absolute;
-    z-index: 3;
+    z-index: 5;
     top: 48px;
-    right: 24px;
-    bottom: 110px;
-    left: 24px;
+    left: max(24px, calc((100% - 720px) / 2));
+    width: min(720px, calc(100% - 48px));
+    height: calc(100% - 158px);
     display: flex;
     flex-direction: column;
-    max-width: 720px;
-    margin-inline: auto;
     background: $c-chrome;
     @include bevel-raised(8px);
 
@@ -42,6 +40,13 @@
       border-radius: 2px;
       background-color: #000080;
       color: #fff;
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+
+      &:active {
+        cursor: grabbing;
+      }
     }
 
     &__title {
@@ -50,10 +55,30 @@
     }
 
     &__close {
+      position: relative;
       width: 22px;
       height: 20px;
       background: $c-chrome;
       @include bevel-raised(2px);
+
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: 4px;
+        left: 4px;
+        height: 1px;
+        background: #000;
+      }
+
+      &::before {
+        rotate: 45deg;
+      }
+
+      &::after {
+        rotate: -45deg;
+      }
     }
 
     &__body {
@@ -71,3 +96,4 @@
 </style>
 
 <script src="../scripts/viewer.ts"></script>
+<script src="../scripts/viewerDrag.ts"></script>
